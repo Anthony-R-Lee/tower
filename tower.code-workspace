@@ -8,5 +8,27 @@
       "name": "tower_vue",
       "path": "tower_vue"
     }
-  ]
+  ],
+  "settings": {
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#879bc0",
+      "activityBar.background": "#879bc0",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "activityBarBadge.background": "#e9d5dc",
+      "activityBarBadge.foreground": "#15202b",
+      "commandCenter.border": "#e7e7e799",
+      "sash.hoverBorder": "#879bc0",
+      "statusBar.background": "#657faf",
+      "statusBar.foreground": "#e7e7e7",
+      "statusBarItem.hoverBackground": "#879bc0",
+      "statusBarItem.remoteBackground": "#657faf",
+      "statusBarItem.remoteForeground": "#e7e7e7",
+      "titleBar.activeBackground": "#657faf",
+      "titleBar.activeForeground": "#e7e7e7",
+      "titleBar.inactiveBackground": "#657faf99",
+      "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "peacock.color": "#657faf"
+  }
 }
