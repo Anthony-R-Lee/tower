@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "tower_node",
+      "path": "tower_node"
+    },
+    {
+      "name": "tower_vue",
+      "path": "tower_vue"
+    }
+  ]
+}
