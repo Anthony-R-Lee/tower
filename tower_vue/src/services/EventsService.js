@@ -17,6 +17,7 @@ class EventsService {
     logger.log('created event', response.data)
     const event = new Event(response.data)
     AppState.events.push(event)
+    return event
   }
 
   async getEventById(eventId){

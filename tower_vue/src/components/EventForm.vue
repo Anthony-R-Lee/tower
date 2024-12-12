@@ -4,6 +4,7 @@ import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { Modal } from 'bootstrap';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 
 
@@ -19,9 +20,11 @@ const editableEventData = ref({
   coverImg: '',
 })
 
+const router = useRouter()
+
 async function createEvent() {
   try {
-    await eventsService.createEvent(editableEventData.value)
+    const event = await eventsService.createEvent(editableEventData.value)
     editableEventData.value = {
       name: '',
       location: '',
@@ -32,6 +35,7 @@ async function createEvent() {
       coverImg: '',
     }
     Modal.getInstance('#eventModal').hide()
+    router.push({ name: 'Event Details', params: { eventId: event.id } })
   }
   catch (error) {
     Pop.meow(error);

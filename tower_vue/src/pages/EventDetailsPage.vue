@@ -3,16 +3,18 @@ import { AppState } from '@/AppState';
 import { eventsService } from '@/services/EventsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const event = computed(() => AppState.activeEvent)
 
+const account = computed(() => AppState.account)
+
 const route = useRoute()
 
-onMounted(() => {
+watch(route, () => {
   getEventById()
-})
+}, { immediate: true })
 
 async function getEventById() {
   try {
@@ -27,7 +29,7 @@ async function getEventById() {
 
 async function cancelEvent() {
   try {
-    const yes = await Pop.confirm(`Do you really want to cancel ${event.value.name}`, "This is a fabulous event!", "Yes, I want to cancel this event!")
+    const yes = await Pop.confirm(`Do you really want to ${event.value.isCanceled ? 'uncancel' : 'cancel'} ${event.value.name}`, "This is a fabulous event!", "Obviously!")
     if (!yes) return
     const eventId = route.params.eventId
     await eventsService.cancelEvent(eventId)
@@ -49,15 +51,16 @@ async function cancelEvent() {
     <section class="row d-flex">
       <div class="col-md-8 p-0">
         <div class="pt-5">
-          <div class=" text-end">
+          <div class="text-end">
             <button class="btn bg-body-secondary fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              ...
             </button>
-            <ul class="dropdown-menu">
-              <li><span class="dropdown-item" href="#" role="button">Edit Event</span></li>
-              <li @click="cancelEvent()" class="dropdown-item" href="#" role="button">Cancel Event</li>
-            </ul>
+            <span>
+              <ul role="button" class="dropdown-menu">
+                <li><span class="dropdown-item" href="#" role="button">Edit Event</span></li>
+                <li @click="cancelEvent()" class="dropdown-item" href="#" role="button">Cancel Event</li>
+              </ul>
+            </span>
           </div>
           <div class="d-flex align-items-center">
             <h4 class="fw-bold pb-3">
