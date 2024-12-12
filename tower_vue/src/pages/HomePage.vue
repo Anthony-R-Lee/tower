@@ -49,15 +49,15 @@ async function getEvents() {
         How Tower Works
       </h4>
       <div>
-        <div class="col-md-12 d-flex justify-content-around align-items-center m-5">
-          <div class="d-flex col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
+        <div class="col-md-12 d-flex justify-content-around align-items-center m-5 p-0">
+          <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
             <i v-if="account" class="mdi mdi-magnify fs-1 text-success"></i>
             <div class="ms-5">
               <b class="fs-5">Discover Events your're Interested In</b>
               <p>Browse through community hosted events for all the things you love</p>
             </div>
           </div>
-          <div class="d-flex col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
+          <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
             <i v-if="account" class="mdi mdi-plus fs-1 text-success" data-bs-toggle="modal" data-bs-target="#eventModal"
               role="button"></i>
             <div class="ps-5">
@@ -89,7 +89,7 @@ async function getEvents() {
       </h4>
       <section class="row d-flex justify-content-center col-md-12">
 
-        <div v-for="event in events" :key="event.id" class="col-6 col-md-4">
+        <div v-for="event in events" :key="event.id" class="col-12 col-md-4">
           <EventCard :event="event" />
         </div>
       </section>

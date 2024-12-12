@@ -10,6 +10,8 @@ const account = computed(() => AppState.account)
 
 const tickets = computed(() => AppState.tickets)
 
+const hasTickets = computed(() => tickets.value.some(tickets => tickets.accountId == account.value.id))
+
 onMounted(() => {
   getMyTickets()
 })
@@ -46,19 +48,24 @@ async function deleteTicket(ticketId) {
                 <img :src="account.picture" :alt="account.name" class="profile-img m-3">
                 <div>
                   <h1 class="ps-3">{{ account.name }}</h1>
-                  <p>number of events i created will go here {{ tickets.length }} tickets</p>
+                  <p v-if="tickets.length != 1">{{ tickets.length }} tickets</p>
+                  <p v-else>{{ tickets.length }} ticket</p>
                 </div>
               </span>
             </div>
           </div>
         </section>
         <section class="row">
-          <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
-            Your Events
-          </h4>
-          <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
-            Upcoming Events
-          </h4>
+          <div v-if="hasTickets == true">
+            <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
+              Upcoming Events
+            </h4>
+          </div>
+          <div v-else>
+            <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
+              No Upcoming Events
+            </h4>
+          </div>
           <div v-for="ticket in tickets" :key="ticket.id" class="col-md-6 mb-3 px-5 ">
             <EventCard :event="ticket.event" />
             <button @click="deleteTicket(ticket.id)" class="btn btn-primary px-2">Unattend</button>
