@@ -11,8 +11,8 @@ defineProps({
 
 
 <template>
-  <RouterLink :to="{ name: 'Event Details', params: { eventId: event.id } }">
-    <div v-if="event.creator" class="py-5 col-md-8 text-dark">
+  <RouterLink :to="{ name: 'Event Details', params: { eventId: event.id } }" class="d-flex justify-content-center">
+    <div v-if="event.creator" class="py-3 col-md-8 text-dark">
       <div class="cover-img" :style="{ backgroundImage: `url(${event.coverImg})` }">
       </div>
       <b>{{ event.name }}</b>

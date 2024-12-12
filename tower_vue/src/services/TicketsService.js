@@ -8,6 +8,7 @@ import { Ticket } from "@/models/Ticket.js"
 class TicketsService{
 
   async getMyTickets(){
+    AppState.tickets =[]
     const response = await api.get('account/tickets')
     logger.log('got my tickets', response.data)
     const tickets = response.data.map(ticketPOJO => new Ticket(ticketPOJO))
@@ -21,6 +22,7 @@ class TicketsService{
     AppState.tickets.splice(ticketIndex, 1)
   }
   async getTicketProfilesByEvent(eventId) {
+    AppState.ticketProfiles = []
     const response = await api.get(`api/events/${eventId}/tickets`)
     logger.log('got tickets by event', response.data)
     const tickets = response.data.map(ticketPOJO => new Ticket(ticketPOJO))

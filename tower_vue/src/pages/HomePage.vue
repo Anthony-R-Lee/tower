@@ -40,9 +40,9 @@ async function getEvents() {
 </script>
 
 <template>
-  <div class="container-fluid">
-    <section class="row bg-img">
-      <div class="w-100 event-hero"
+  <div class="container-fluid p-md-0">
+    <section class="row bg-img p-md-0">
+      <div class="event-hero img-fluid "
         style="background-image: url(https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2hlZXJzfGVufDB8fDB8fHww);">
       </div>
       <h4 class=" fw-bold pt-5 ps-5 ms-5">
@@ -51,7 +51,7 @@ async function getEvents() {
       <div>
         <div class="col-md-12 d-flex justify-content-around align-items-center m-5">
           <div class="d-flex col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
-            <i v-if="account" class="mdi mdi-magnify fs-1 text-success" role="button"></i>
+            <i v-if="account" class="mdi mdi-magnify fs-1 text-success"></i>
             <div class="ms-5">
               <b class="fs-5">Discover Events your're Interested In</b>
               <p>Browse through community hosted events for all the things you love</p>
@@ -73,7 +73,7 @@ async function getEvents() {
       <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold text-capitalize">
         Explore {{ activeFilterType }} Categories
       </h4>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center p-0">
         <div v-for="type in types" :key="'filter-' + type.name" class="col-md-2 d-flex justify-content-center p-5">
           <div @click="activeFilterType = type.name" role="button"
             class="d-flex text-center bg-body-secondary border-0 rounded-1 px-4 filter-button">
@@ -87,9 +87,9 @@ async function getEvents() {
       <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
         Upcoming Events
       </h4>
-      <section class="row d-flex col-md-12">
+      <section class="row d-flex justify-content-center col-md-12">
 
-        <div v-for="event in events" :key="event.id" class="col-md-4">
+        <div v-for="event in events" :key="event.id" class="col-6 col-md-4">
           <EventCard :event="event" />
         </div>
       </section>
@@ -101,6 +101,7 @@ async function getEvents() {
 <style scoped lang="scss">
 .event-hero {
   min-height: 50vh;
+  // width: 100%;
   background-size: cover;
   background-position: center;
 }

@@ -1,13 +1,12 @@
 import { dbContext } from "../db/DbContext"
-import { Forbidden } from "../utils/Errors"
+import { BadRequest, Forbidden } from "../utils/Errors"
 
 
 class EventsService {
   async createEvent(eventData) {
     const event = await dbContext.Events.create(eventData)
     await event.populate('creator')
-    // TODO add ticket count
-    // await event.populate('ticketCount')
+    await event.populate('ticketCount')
     return event
   }
 
@@ -19,15 +18,19 @@ class EventsService {
 
   async getEventById(eventId, userId) {
     // TODO add ticket count
-    const event = await dbContext.Events.findById(eventId).populate('creator')
+    const event = await dbContext.Events.findById(eventId).populate('creator').populate('ticketCount')
     if (event == null) throw new Error(`No event with id: ${eventId}`);
     return event
   }
 
   async editEvent(updateData, userId) {
     const eventOg = await this.getEventById(updateData.id, userId)
-    eventOg.name = updateData.name ?? eventOg.name
-    eventOg.description = updateData.description ?? eventOg.description
+    if (eventOg.isCanceled == true) return BadRequest
+    if (userId != eventOg.creatorId) { throw new Forbidden("You are not the father, of this event") }
+    if (userId == eventOg.creatorId) {
+      eventOg.name = updateData.name ?? eventOg.name
+      eventOg.description = updateData.description ?? eventOg.description
+    }
     await eventOg.save()
     return eventOg
   }

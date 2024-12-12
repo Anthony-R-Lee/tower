@@ -10,12 +10,12 @@ import EventForm from './EventForm.vue';
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title p-5">
+          <h1 class="modal-title p-2">
             Create New Event
           </h1>
           <button class="btn-close text-bold" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body p-5">
+        <div class="modal-body">
           <EventForm />
         </div>
       </div>
