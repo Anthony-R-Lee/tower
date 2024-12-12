@@ -10,5 +10,9 @@ export const AppState = reactive({
   events: [],
   /** @type {import('./models/Event.js').Event} user info from the database*/
   activeEvent: null,
+    /** @type {import('./models/Ticket.js').Ticket[]} user info from the database*/
+    tickets: [],
+    /** @type {import('./models/Ticket.js').Ticket[]} user info from the database*/
+    ticketProfiles: [],
 })
 

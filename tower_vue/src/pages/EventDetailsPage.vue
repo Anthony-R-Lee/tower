@@ -1,6 +1,7 @@
 <script setup>
 import { AppState } from '@/AppState';
 import { eventsService } from '@/services/EventsService';
+import { ticketsService } from '@/services/TicketsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
 import { computed, onMounted, watch } from 'vue';
@@ -10,10 +11,19 @@ const event = computed(() => AppState.activeEvent)
 
 const account = computed(() => AppState.account)
 
+const ticketProfiles = computed(() => AppState.ticketProfiles)
+
+const hasTicket = computed(() =>
+  ticketProfiles.value.some(ticketProfile =>
+    ticketProfile.accountId == account.value?.id
+  )
+)
+
 const route = useRoute()
 
 watch(route, () => {
   getEventById()
+  getTicketProfilesByEvent()
 }, { immediate: true })
 
 async function getEventById() {
@@ -39,6 +49,32 @@ async function cancelEvent() {
     logger.log('canceling event', error)
   }
 }
+
+async function createTicket() {
+  try {
+    const eventData = { eventId: route.params.eventId }
+    await ticketsService.createTicket(eventData)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error('creating ticket', error)
+  }
+}
+
+async function getTicketProfilesByEvent() {
+  try {
+    const eventId = route.params.eventId
+    await ticketsService.getTicketProfilesByEvent(eventId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error('getting ticket profiles by event', error)
+  }
+}
+
+// function getSpotsLeft(){
+
+// }
 </script>
 
 
@@ -52,8 +88,9 @@ async function cancelEvent() {
       <div class="col-md-8 p-0">
         <div class="pt-5">
           <div class="text-end">
-            <button class="btn bg-body-secondary fw-bold dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
+
+            <button v-if="event.creatorId == account?.id" class="btn bg-body-secondary fw-bold dropdown-toggle"
+              type="button" data-bs-toggle="dropdown" aria-expanded="false">
             </button>
             <span>
               <ul role="button" class="dropdown-menu">
@@ -126,21 +163,26 @@ async function cancelEvent() {
       <div class="col-md-4 pt-5">
         <div class="card bg-body-secondary border px-5 pt-3">
           <b class="fs-5 text-center">Interested in Going?</b>
-          <b class="text-center text-body-secondary">Grab a Ticket!</b>
-          <button class="btn btn-primary m-3" :disabled="event.isCanceled">Attend</button>
+          <b class="text-center text-body-secondary pb-2">Grab a Ticket!</b>
+          <div v-if="account">
+            <div v-if="hasTicket" class=" d-flex justify-content-center">
+              <button @click="createTicket()" class="btn btn-primary m-3" :disabled="event.isCanceled">Attend</button>
+            </div>
+            <div v-else class=" d-flex justify-content-center">
+              <button @click="createTicket()" class="btn btn-primary m-3" :disabled="event.isCanceled">Attend</button>
+            </div>
+          </div>
         </div>
         <div class="text-end pt-2 mb-5">
-          <div>
-            <span class="text-success">{{ event.ticketCount }}</span>
-          </div>
-          <span> spots left </span>
+          <span class="text-success">{{ event.capacity }}{{ event.ticketCount }} </span> <span>spots left </span>
         </div>
         <div class="mb-5">
           <span class="fs-5 fw-bold">Attendees</span>
           <div class="card bg-body-secondary border px-5 mt-3">
-            <div class="pt-3">
-              <img :src="event.creator.picture" :alt="event.creator.name" class="profile-img">
-              <span class="fw-bold ms-3 text-capitalize fs-5 text-body-secondary">{{ event.creator.name }}</span>
+            <div v-for="ticketProfile in ticketProfiles" :key="ticketProfile.id" class="pt-3">
+              <img :src="ticketProfile.profile.picture" :alt="ticketProfile.profile.name" class="profile-img">
+              <span class="fw-bold ms-3 text-capitalize fs-5 text-body-secondary">{{ ticketProfile.profile.name
+                }}</span>
             </div>
             <span class="text-end text-body-secondary">See more </span>
           </div>

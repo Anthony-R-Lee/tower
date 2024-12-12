@@ -13,7 +13,7 @@ class EventsService {
 
   async getAllEvents() {
     // TODO add ticket count
-    const events = await dbContext.Events.find().populate('creator').sort('startDate')
+    const events = await dbContext.Events.find().populate('ticketCount').populate('creator').sort('startDate')
     return events
   }
 

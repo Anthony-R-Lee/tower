@@ -87,9 +87,12 @@ async function getEvents() {
       <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
         Upcoming Events
       </h4>
-      <div v-for="event in events" :key="event.id" class="d-flex col-md-4">
-        <EventCard :event="event" />
-      </div>
+      <section class="row d-flex col-md-12">
+
+        <div v-for="event in events" :key="event.id" class="col-md-4">
+          <EventCard :event="event" />
+        </div>
+      </section>
     </section>
   </div>
 
