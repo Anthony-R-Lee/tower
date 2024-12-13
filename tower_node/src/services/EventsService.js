@@ -11,13 +11,11 @@ class EventsService {
   }
 
   async getAllEvents() {
-    // TODO add ticket count
     const events = await dbContext.Events.find().populate('ticketCount').populate('creator').sort('startDate')
     return events
   }
 
   async getEventById(eventId, userId) {
-    // TODO add ticket count
     const event = await dbContext.Events.findById(eventId).populate('creator').populate('ticketCount')
     if (event == null) throw new Error(`No event with id: ${eventId}`);
     return event

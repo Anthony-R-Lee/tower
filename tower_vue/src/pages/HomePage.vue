@@ -40,9 +40,9 @@ async function getEvents() {
 </script>
 
 <template>
-  <div class="container-fluid p-md-0">
-    <section class="row bg-img p-md-0">
-      <div class="event-hero img-fluid "
+  <div class="container-fluid">
+    <section class="row bg-img">
+      <div class="col-12 event-hero img-fluid "
         style="background-image: url(https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2hlZXJzfGVufDB8fDB8fHww);">
       </div>
       <h4 class=" fw-bold pt-5 ps-5 ms-5">
@@ -52,7 +52,7 @@ async function getEvents() {
         <div class="col-md-12 d-flex justify-content-around align-items-center m-5 p-0">
           <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
             <i v-if="account" class="mdi mdi-magnify fs-1 text-success"></i>
-            <div class="ms-5">
+            <div class="ms-5 ps-5">
               <b class="fs-5">Discover Events your're Interested In</b>
               <p>Browse through community hosted events for all the things you love</p>
             </div>
@@ -87,12 +87,12 @@ async function getEvents() {
       <h4 class="text-bold pt-5 ps-5 ms-5 fw-bold">
         Upcoming Events
       </h4>
-      <section class="row d-flex justify-content-center col-md-12">
+    </section>
+    <section class="row d-flex justify-content-center col-md-12">
 
-        <div v-for="event in events" :key="event.id" class="col-12 col-md-4">
-          <EventCard :event="event" />
-        </div>
-      </section>
+      <div v-for="event in events" :key="event.id" class="col-12 col-md-4">
+        <EventCard :event="event" />
+      </div>
     </section>
   </div>
 

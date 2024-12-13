@@ -88,9 +88,22 @@ async function getCommentsByEvent() {
   }
 }
 
-function getSpotsLeft() {
-  const spotsLeft = (event.value.capacity - ticketProfiles.value.length)
+async function deleteComment() {
+  try {
+    const message = "Are you sure you want ot remove your comment?"
+    const confirmed = await Pop.confirm(message)
+    if (!confirmed) return
+    const commentId = route.params.id
+    await commentsService.deleteComment(commentId)
+  }
+  catch (error) {
+    Pop.meow(error);
+    logger.error('deleting comment', error)
+  }
 }
+
+
+
 </script>
 
 
@@ -124,7 +137,7 @@ function getSpotsLeft() {
             <div v-if="event.isCanceled" class="card bg-danger border border-0 px-3 ms-4 text-light fw-bold">
               CANCELLED
             </div>
-            <div v-if="(event.capacity - ticketProfiles.length) == 0"
+            <div v-if="((event.capacity - ticketProfiles.length) == 0)"
               class="card bg-primary border border-0 px-3 ms-4 text-light fw-bold">
               SOLD OUT
             </div>
@@ -153,7 +166,9 @@ function getSpotsLeft() {
               <div class="card bg-body-secondary border p-3">
                 <span v-if="account" class="text-success text-end fw-bold">Join the conversation</span>
                 <CommentForm v-if="account" />
-                <div v-for="comment in comments" :key="comment.id" class="card border-0 rounded-0 my-3 p-3 bg-light">
+                <div v-for="comment in comments" :key="comment.id"
+                  class="shadow card border-0 rounded my-3 p-3 bg-light">
+                  <!-- TODO add delete button (ref gregslist) -->
                   <div class="d-flex align-items-center">
                     <img :src="comment.creator.picture" :alt="comment.creator.name" class="profile-img">
                     <span class="text-capitalize ps-2 fw-bold fs-5">
@@ -163,6 +178,9 @@ function getSpotsLeft() {
                   <span class="ms-5 ps-2">
                     {{ comment.body }}
                   </span>
+                  <!-- <div class="text-end">
+                    <button @click="deleteComment()" class="btn btn-danger px-3 py-1 mt-1">Remove</button>
+                  </div> -->
                   <div>
                   </div>
                 </div>
@@ -178,21 +196,25 @@ function getSpotsLeft() {
           <b class="text-center text-body-secondary pb-2">Grab a Ticket!</b>
           <div v-if="account">
             <div v-if="hasTicket == false" class=" d-flex justify-content-center">
-              <button @click="createTicket()" class="btn btn-primary m-3" :disabled="event.isCanceled">Attend</button>
+              <button @click="createTicket()" class="btn btn-primary m-3"
+                :disabled="event.capacity - ticketProfiles.length <= 0 || event.isCanceled">Attend</button>
             </div>
             <div v-else class=" d-flex justify-content-center">
-              <button class="btn btn-primary m-3" disabled>Attending</button>
+              <button class="btn btn-primary m-3"
+                :disabled="event.capacity - ticketProfiles.length <= 0 || event.isCanceled || hasTicket">Attending</button>
             </div>
           </div>
         </div>
         <div class="text-end pt-2 mb-5">
-          <span class="text-success"></span> <span>spots left
-          </span>
+          <span> {{ event.capacity - ticketProfiles.length }} <span> spots left</span></span>
         </div>
-        <div class="mb-5">
-          <span class="fs-5 fw-bold">Attendees</span>
-          <div class="card bg-body-secondary border px-5 my-3">
-            <div v-for="ticketProfile in ticketProfiles" :key="ticketProfile.id" class="pt-3">
+        <div class="my-5">
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fs-5 fw-bold">Attendees</span>
+            Max Capacity: {{ event.capacity }}
+          </div>
+          <div class="card bg-body-secondary border px-5 my-3 ">
+            <div v-for="ticketProfile in ticketProfiles" :key="ticketProfile.id" class="pt-3 d-flex align-items-center">
               <img :src="ticketProfile.profile.picture" :alt="ticketProfile.profile.name" class="profile-img mb-2">
               <span class="fw-bold ms-3 text-capitalize fs-5 text-body-secondary">{{ ticketProfile.profile.name
                 }}</span>

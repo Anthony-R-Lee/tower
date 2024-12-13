@@ -27,7 +27,10 @@ async function getMyTickets() {
 
 async function deleteTicket(ticketId) {
   try {
+    const confirmed = await Pop.confirm("Are you sure you want to unattend this event")
+    if (!confirmed) return
     await ticketsService.deleteTicket(ticketId)
+    Pop.toast("No longer attending!")
   }
   catch (error) {
     Pop.meow(error);
@@ -66,9 +69,9 @@ async function deleteTicket(ticketId) {
               No Upcoming Events
             </h4>
           </div>
-          <div v-for="ticket in tickets" :key="ticket.id" class="col-md-6 mb-3 px-5 ">
+          <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-6 mb-3">
             <EventCard :event="ticket.event" />
-            <button @click="deleteTicket(ticket.id)" class="btn btn-primary px-2">Unattend</button>
+            <button @click="deleteTicket(ticket.id)" class="btn btn-primary ms-5">Unattend</button>
           </div>
         </section>
       </div>

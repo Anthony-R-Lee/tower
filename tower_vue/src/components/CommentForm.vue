@@ -28,10 +28,12 @@ async function createComment() {
     logger.error('creating comment', error)
   }
 }
+
 </script>
 
 
 <template>
+
 
   <textarea v-model="editableCommentData.body" class="border-0 bg-light" name="comment" id="comment"
     placeholder="Tell the people..." required maxlength="1000"></textarea>

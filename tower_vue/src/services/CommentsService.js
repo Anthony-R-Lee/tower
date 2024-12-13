@@ -5,6 +5,10 @@ import { AppState } from "@/AppState.js";
 
 
 class CommentsService{
+  async deleteComment(commentId) {
+    const response = await api.delete(`api/comments/${commentId}`)
+    logger.log('deleted comment')
+  }
   async getCommentsByEvent(eventId){
     AppState.comments = []
     const response = await api.get(`api/events/${eventId}/comments`)
