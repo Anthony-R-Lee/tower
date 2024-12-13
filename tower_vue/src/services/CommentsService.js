@@ -5,10 +5,6 @@ import { AppState } from "@/AppState.js";
 
 
 class CommentsService{
-  async deleteComment(commentId) {
-    const response = await api.delete(`api/comments/${commentId}`)
-    logger.log('deleted comment')
-  }
   async getCommentsByEvent(eventId){
     AppState.comments = []
     const response = await api.get(`api/events/${eventId}/comments`)
@@ -22,6 +18,12 @@ class CommentsService{
     logger.log('created comment', response.data)
     const comment = new Comment(response.data)
     AppState.comments.push(comment)
+  }
+  async deleteComment(commentId) {
+    const response = await api.delete(`api/comments/${commentId}`)
+    logger.log('deleted comment')
+    const commentIndex = AppState.comments.findIndex(comment => comment.id = commentId)
+    AppState.comments.splice(commentIndex, 0)
   }
 }
 

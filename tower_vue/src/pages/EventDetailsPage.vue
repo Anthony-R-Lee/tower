@@ -6,7 +6,7 @@ import { eventsService } from '@/services/EventsService';
 import { ticketsService } from '@/services/TicketsService';
 import { logger } from '@/utils/Logger';
 import Pop from '@/utils/Pop';
-import { computed, onMounted, watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 
 const event = computed(() => AppState.activeEvent)
@@ -88,12 +88,12 @@ async function getCommentsByEvent() {
   }
 }
 
-async function deleteComment() {
+async function deleteComment(commentId) {
   try {
+    logger.log('commentId', commentId)
     const message = "Are you sure you want ot remove your comment?"
     const confirmed = await Pop.confirm(message)
     if (!confirmed) return
-    const commentId = route.params.id
     await commentsService.deleteComment(commentId)
   }
   catch (error) {
@@ -178,9 +178,9 @@ async function deleteComment() {
                   <span class="ms-5 ps-2">
                     {{ comment.body }}
                   </span>
-                  <!-- <div class="text-end">
-                    <button @click="deleteComment()" class="btn btn-danger px-3 py-1 mt-1">Remove</button>
-                  </div> -->
+                  <div v-if="comment.creatorId == account?.id" class="text-end">
+                    <button @click="deleteComment(comment.id)" class="btn btn-danger px-3 py-1 mt-1">Remove</button>
+                  </div>
                   <div>
                   </div>
                 </div>
