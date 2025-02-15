@@ -45,27 +45,27 @@ async function getEvents() {
       <div class="col-12 event-hero img-fluid "
         style="background-image: url(https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2hlZXJzfGVufDB8fDB8fHww);">
       </div>
+    </section>
+    <section>
       <h4 class=" fw-bold pt-5 ps-5 ms-5">
         How Tower Works
       </h4>
-      <div>
-        <div class="col-md-12 d-flex justify-content-around align-items-center m-5 p-0">
-          <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
-            <i v-if="account" class="mdi mdi-magnify fs-1 text-success"></i>
-            <div class="ms-5 ps-5">
-              <b class="fs-5">Discover Events your're Interested In</b>
-              <p>Browse through community hosted events for all the things you love</p>
-            </div>
+      <div class="col-md-12 d-flex justify-content-around align-items-center my-5">
+        <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
+          <i v-if="account" class="mdi mdi-magnify fs-1 text-success"></i>
+          <div class="ms-5 ps-5">
+            <b class="fs-5">Discover Events your're Interested In</b>
+            <p>Browse through community hosted events for all the things you love</p>
           </div>
-          <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
-            <i v-if="account" class="mdi mdi-plus fs-1 text-success" data-bs-toggle="modal" data-bs-target="#eventModal"
-              role="button"></i>
-            <div class="ps-5">
-              <b class="fs-5">Start an Event to Invite your Friends</b>
-              <p>Create your own Tower event, and draw from a community of millions</p>
-              <button v-if="account" class="btn text-success fw-bold" data-bs-toggle="modal"
-                data-bs-target="#eventModal">Create an Event</button>
-            </div>
+        </div>
+        <div class="d-flex col-6 col-md-4 bg-body-secondary border-0 rounded-1 align-items-center p-3">
+          <i v-if="account" title="Add an Event" class="mdi mdi-plus fs-1 text-success" data-bs-toggle="modal"
+            data-bs-target="#eventModal" role="button"></i>
+          <div class="ps-5">
+            <b class="fs-5">Start an Event to Invite your Friends</b>
+            <p>Create your own Tower event, and draw from a community of millions</p>
+            <button v-if="account" class="btn text-success fw-bold" data-bs-toggle="modal"
+              data-bs-target="#eventModal">Create an Event</button>
           </div>
         </div>
       </div>
